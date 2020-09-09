@@ -118,9 +118,9 @@ func handlerNew(c *gin.Context) {
 		return
 	}
 	var sub string
-	if cv,ok := lru.Get(ori,true);ok {
+	if cv, ok := lru.Get(ori, true); ok {
 		sub = cv
-	}else {
+	} else {
 		m32 := mmh3.Sum32([]byte(ori))
 		sub = from10To64(m32)
 		x := Wz{Sub: sub, Origin: ori}
@@ -128,9 +128,8 @@ func handlerNew(c *gin.Context) {
 		if err != nil {
 			println("err", err)
 		}
-		lru.Put(ori,sub)
+		lru.Put(ori, sub)
 	}
-
 
 	cs := fmt.Sprintf("<a href='%s'>点我</a>", hostName+"/"+sub)
 	if c.Query("format") == "button" {
@@ -159,8 +158,8 @@ func handlerRedirect(c *gin.Context) {
 		return
 	}
 	x := Wz{Sub: wz}
-	if v,ok := lru.Get(wz,true);ok{
-		x.Origin =v
+	if v, ok := lru.Get(wz, true); ok {
+		x.Origin = v
 		c.Redirect(301, x.Origin)
 		return
 	}
@@ -173,7 +172,7 @@ func handlerRedirect(c *gin.Context) {
 			x.Origin = "http://" + x.Origin
 		}
 		go func() {
-			lru.Put(wz,x.Origin)
+			lru.Put(wz, x.Origin)
 		}()
 		c.Redirect(301, x.Origin)
 	}

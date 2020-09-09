@@ -7,4 +7,4 @@ db_name = 数据库名称
 [server]
 port = 服务监听端口
 host = 服务监听域名根据实际情况替换为 http或者https 某某 示例 http://localhost
-cache = lru缓存网址数
+cache = lru缓存最大网址数
